@@ -22,11 +22,18 @@ export const getUser = async (userId: number) => {
   };
 
 // Ajouter un utilisateur par défaut
-export const addUser = async () => {
-  await db.insert(users).values({
-    name: "user1",
-    email: "umair@gmail.com",
-  });
+export const addUser = async (user: any) => {
+  await db
+    .insert(users)
+    .values({
+      clerkId: user?.clerkId,
+      email: user?.email,
+      name: user?.name!,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      photo: user?.photo,
+    })
+    .returning({ clerkClientId: users?.clerkId });
 
-  revalidatePath("/"); // Revalide la page d’accueil
+  //revalidatePath("/"); // Revalide la page d’accueil
 };
